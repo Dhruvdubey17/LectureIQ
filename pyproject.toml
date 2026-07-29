@@ -1,0 +1,33 @@
+[project]
+name = "lectureiq"
+version = "0.1.0"
+description = "Lecture intelligence: cited, timestamped answers over lecture transcripts"
+requires-python = ">=3.10"
+dependencies = [
+    "yt-dlp",
+    "chromadb",
+    "langchain-core",
+    "langchain-ollama",
+    "fastapi",
+    "uvicorn",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+# The real audio path. faster-whisper uses CTranslate2, not torch, so it stays
+# light on this x86_64 machine.
+whisper = ["faster-whisper"]
+# Swap the local LLM for a hosted one with a single env var; install the matching extra.
+groq = ["langchain-groq"]
+openai = ["langchain-openai"]
+dev = ["pytest"]
+
+[project.scripts]
+lectureiq = "lectureiq.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["lectureiq*"]
